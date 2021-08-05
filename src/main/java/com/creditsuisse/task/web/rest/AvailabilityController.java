@@ -4,7 +4,9 @@ import com.creditsuisse.task.service.AvailabilityQueryService;
 import com.creditsuisse.task.service.criteria.AvailabilityQueryCriteria;
 import com.creditsuisse.task.service.criteria.RentalCriteria;
 import com.creditsuisse.task.service.dto.RentalDTO;
+
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
