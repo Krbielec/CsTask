@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="rental">
+      <h2 data-cy="rentalDetailsHeading"><span>Rental</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ rental.id }}</span>
+        </dd>
+        <dt><span>Rental Date</span></dt>
+        <dd>
+          <span>{{ rental.rentalDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Return Date</span></dt>
+        <dd>
+          <span>{{ rental.returnDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Patron</span></dt>
+        <dd>
+          <div *ngIf="rental.patron">
+            <a [routerLink]="['/patron', rental.patron?.id, 'view']">{{ rental.patron?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Inventory</span></dt>
+        <dd>
+          <div *ngIf="rental.inventory">
+            <a [routerLink]="['/inventory', rental.inventory?.id, 'view']">{{ rental.inventory?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/rental', rental.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

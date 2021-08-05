@@ -1,0 +1,19 @@
+{
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipName": "book",
+      "otherEntityName": "book",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "id"
+    }
+  ],
+  "service": "serviceImpl",
+  "dto": "mapstruct",
+  "jpaMetamodelFiltering": true,
+  "readOnly": false,
+  "pagination": "pagination",
+  "name": "Inventory",
+  "changelogDate": "20210727191520"
+}

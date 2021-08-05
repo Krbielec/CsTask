@@ -1,0 +1,103 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-rental-heading" data-cy="RentalCreateUpdateHeading">Create or edit a Rental</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_rentalDate">Rental Date</label>
+          <div class="input-group">
+            <input
+              id="field_rentalDate"
+              data-cy="rentalDate"
+              type="text"
+              class="form-control"
+              name="rentalDate"
+              ngbDatepicker
+              #rentalDateDp="ngbDatepicker"
+              formControlName="rentalDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="rentalDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div *ngIf="editForm.get('rentalDate')!.invalid && (editForm.get('rentalDate')!.dirty || editForm.get('rentalDate')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('rentalDate')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_returnDate">Return Date</label>
+          <div class="input-group">
+            <input
+              id="field_returnDate"
+              data-cy="returnDate"
+              type="text"
+              class="form-control"
+              name="returnDate"
+              ngbDatepicker
+              #returnDateDp="ngbDatepicker"
+              formControlName="returnDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="returnDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_patron">Patron</label>
+          <select class="form-control" id="field_patron" data-cy="patron" name="patron" formControlName="patron">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="patronOption.id === editForm.get('patron')!.value?.id ? editForm.get('patron')!.value : patronOption"
+              *ngFor="let patronOption of patronsSharedCollection; trackBy: trackPatronById"
+            >
+              {{ patronOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_inventory">Inventory</label>
+          <select class="form-control" id="field_inventory" data-cy="inventory" name="inventory" formControlName="inventory">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="inventoryOption.id === editForm.get('inventory')!.value?.id ? editForm.get('inventory')!.value : inventoryOption"
+              *ngFor="let inventoryOption of inventoriesSharedCollection; trackBy: trackInventoryById"
+            >
+              {{ inventoryOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

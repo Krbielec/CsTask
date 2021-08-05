@@ -41,6 +41,8 @@
     "jwtSecretKey": "MjE1YmQ5MWY5ZGNmYjllM2JmNGQ0MDQyNjRiODUxNWMzYzVkM2E5ZDIwMDRhOWE5ZDhhNWM5NTYyY2NhMTNiNDUxZDczNjllNDVkY2M3N2I3NWEwOGM0MGFjNzlhMjQ0MDI5NmZlNTE3NmM3M2IzZTcyNTY5MDM5NzBmNzQ4ODE=",
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "lastLiquibaseTimestamp": 1627413902000,
+    "entities": ["Book", "Patron", "Inventory", "Rental"]
   }
 }

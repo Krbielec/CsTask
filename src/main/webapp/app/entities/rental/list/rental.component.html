@@ -1,0 +1,100 @@
+<div>
+  <h2 id="page-heading" data-cy="RentalHeading">
+    <span>Rentals</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-rental"
+        [routerLink]="['/rental/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Rental </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="rentals?.length === 0">
+    <span>No rentals found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="rentals && rentals.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="rentalDate"><span>Rental Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="returnDate"><span>Return Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="patron.id"><span>Patron</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="inventory.id"><span>Inventory</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rental of rentals; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/rental', rental.id, 'view']">{{ rental.id }}</a>
+          </td>
+          <td>{{ rental.rentalDate | formatMediumDate }}</td>
+          <td>{{ rental.returnDate | formatMediumDate }}</td>
+          <td>
+            <div *ngIf="rental.patron">
+              <a [routerLink]="['/patron', rental.patron?.id, 'view']">{{ rental.patron?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="rental.inventory">
+              <a [routerLink]="['/inventory', rental.inventory?.id, 'view']">{{ rental.inventory?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/rental', rental.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/rental', rental.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(rental)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="rentals && rentals.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
